@@ -2,6 +2,7 @@
 CHANGELOG:
 260519: Started, keypresses via msvcrt
 260527: Working on input lists
+260528: Simple build frame and show frame methods
 
 
 """
@@ -21,13 +22,17 @@ except:
     raise Exception("No method found for keyboard support")
 
 
-
-
-
+### The wrapper class that contains shared methods
 
 class Menu:
 
-    def __init__(self, input_list=None):
+    def __init__(self, input_list: list = None, header = None, footer = None, padding: int = 0):
+        self.padding = padding
+        self.display_frame = []
+        self.pointer = 0
+        self.header = header
+        self.footer = footer
+
         if input_list is not None:
             self.input_list = input_list
         else:
@@ -48,9 +53,46 @@ class Menu:
     def dump_contents(self):
         print(f"Type of list: {type(self.input_list)}")
         print(self.input_list)
+        print(self.header)
+        print(self.footer)
+
+    def build_frame(self):
+        pass
         
 
+### Subclass for the selection menu
     
+class Selection_menu(Menu):
+
+    def __init__(self, input_list: list = None, header = None, footer = None, padding: int = 0):
+        super().__init__(input_list, header, footer, padding)
+
+    def dump_subcontents(self):
+        print(f"Type of list in selection menu: {type(self.input_list)}")
+        print(self.input_list)
+        print(self.header)
+        print(self.footer)
+
+    def build_frame(self):
+        self.display_frame = []
+        size_of_list = len(self.input_list)
+        for i in range(0, size_of_list):
+            a = ""
+            if i == self.pointer:
+                a = " --> "
+            else:
+                a = "     "
+            b = self.input_list[i]
+            self.display_frame.append((a, b))
+        
+    def show_frame(self):
+        print(self.header)
+        for i in range(0, len(self.display_frame)):
+            print(f"{self.display_frame[i][0]} {self.display_frame[i][1]}")
+        print(self.footer)
+        
+            
+
 
 
 
@@ -96,7 +138,7 @@ def decode_key(key):
 
 
 
-### Running tests. Not run when called from the outside ###
+### Running tests. Not run if called from the outside ###
 
 def main():
     print("Running the test suite:")
@@ -115,6 +157,12 @@ def main():
     print("--Test 2--: Directly load an input list")
     test_menu = Menu(["Item1", "Item2"])
     test_menu.dump_contents()
+
+    print("--Test 3--: Testing selection menu")
+    test_menu = Selection_menu(["Selection1", "Selection2"], "Breakfast is only the beginning", "Get to the bottom of this")
+    test_menu.dump_subcontents()
+    test_menu.build_frame()
+    test_menu.show_frame()
 
 if __name__ == "__main__":
     main()
