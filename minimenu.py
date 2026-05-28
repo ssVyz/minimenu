@@ -14,6 +14,7 @@ CHANGELOG:
 
 
 import sys
+import os
 
 try:
     import msvcrt
@@ -141,12 +142,17 @@ def decode_key(key):
 ### Running tests. Not run if called from the outside ###
 
 def main():
+
+    os.system("cls")
+
     print("Running the test suite:")
     print(f"Detected system: {sys.platform}")
     
+    '''
     key = get_next_key()
     print(key)
     print(decode_key(key))
+    '''
 
     print("--Test 1--: load multiple strings directly into Menu object")
     test_menu = Menu()
