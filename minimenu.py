@@ -23,6 +23,10 @@ except:
     raise Exception("No method found for keyboard support")
 
 
+
+
+
+
 ### The wrapper class that contains shared methods
 
 class Menu:
@@ -31,6 +35,7 @@ class Menu:
         self.padding = padding
         self.display_frame = []
         self.pointer = 0
+        self.limit = 0
         self.header = header
         self.footer = footer
 
@@ -56,10 +61,38 @@ class Menu:
         print(self.input_list)
         print(self.header)
         print(self.footer)
-
+    
     def build_frame(self):
         pass
         
+    def show_frame(self):
+        pass
+
+    def move_pointer(self, key):
+        pass
+
+
+    def present(self):
+        confirmed_select = False
+        self.limit = len(self.input_list)-1
+
+        while confirmed_select == False:
+
+            self.build_frame()
+            self.show_frame()
+            print(f"Current pointer: {self.pointer}, current limit: {self.limit}")
+            key = decode_key(get_next_key())
+            if key == "enter":
+                confirmed_select = True
+            else:
+                self.move_pointer(key)
+            
+
+
+
+
+
+
 
 ### Subclass for the selection menu
     
@@ -87,11 +120,31 @@ class Selection_menu(Menu):
             self.display_frame.append((a, b))
         
     def show_frame(self):
+        os.system("cls")
+        print("")
         print(self.header)
+        print("")
         for i in range(0, len(self.display_frame)):
             print(f"{self.display_frame[i][0]} {self.display_frame[i][1]}")
+        print("")
         print(self.footer)
+
+    def move_pointer(self, key):
+        upper_bounds = self.limit
+        if key == "up":
+            self.pointer -= 1 if self.pointer > 0 else self.pointer
+        if key == "left":
+            self.pointer -= 1 if self.pointer > 0 else self.pointer
+        if key == "down":
+            self.pointer += 1
+        if key == "right":
+            self.pointer += 1
         
+        if self.pointer > upper_bounds:
+            self.pointer = upper_bounds
+        
+        
+
             
 
 
@@ -143,7 +196,6 @@ def decode_key(key):
 
 def main():
 
-    os.system("cls")
 
     print("Running the test suite:")
     print(f"Detected system: {sys.platform}")
@@ -165,10 +217,11 @@ def main():
     test_menu.dump_contents()
 
     print("--Test 3--: Testing selection menu")
-    test_menu = Selection_menu(["Selection1", "Selection2"], "Breakfast is only the beginning", "Get to the bottom of this")
+    test_menu = Selection_menu(["Bad idea", "Use the toilette", "Run away screaming", "Take a bath"], "Breakfast is only the beginning", "Get to the bottom of this")
     test_menu.dump_subcontents()
-    test_menu.build_frame()
-    test_menu.show_frame()
+    test_menu.present()
+
+
 
 if __name__ == "__main__":
     main()
