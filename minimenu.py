@@ -86,7 +86,8 @@ class Menu:
             if key == "enter":
                 confirmed_select = True
             else:
-                self.move_pointer(key)
+                if key is not None:
+                    self.move_pointer(key)
             
 
 
@@ -140,7 +141,6 @@ class Selection_menu(Menu):
             self.pointer += 1
         if key == "right":
             self.pointer += 1
-        
         if self.pointer > upper_bounds:
             self.pointer = upper_bounds
         
@@ -212,14 +212,17 @@ def main():
     test_menu.add_item("This is item1")
     test_menu.add_item("This is item2")
     test_menu.dump_contents()
+    input("continue")
 
     print("--Test 2--: Directly load an input list")
     test_menu = Menu(["Item1", "Item2"])
     test_menu.dump_contents()
+    input("continue")
 
     print("--Test 3--: Testing selection menu")
     test_menu = Selection_menu(["Bad idea", "Use the toilette", "Run away screaming", "Take a bath"], "Breakfast is only the beginning", "Get to the bottom of this")
     test_menu.dump_subcontents()
+    input("continue")
     test_menu.present()
 
 
