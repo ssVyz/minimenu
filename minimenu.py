@@ -3,6 +3,7 @@ CHANGELOG:
 260519: Started, keypresses via msvcrt
 260527: Working on input lists
 260528: Simple build frame and show frame methods
+260529: presenting the select menu
 
 
 """
