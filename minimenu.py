@@ -4,6 +4,7 @@ CHANGELOG:
 260527: Working on input lists
 260528: Simple build frame and show frame methods
 260529: presenting the select menu
+260530: result list implemented
 
 
 """
@@ -39,6 +40,7 @@ class Menu:
         self.limit = 0
         self.header = header
         self.footer = footer
+        self.result = []
 
         if input_list is not None:
             self.input_list = input_list
@@ -72,6 +74,9 @@ class Menu:
     def move_pointer(self, key):
         pass
 
+    def build_result(self):
+        pass
+
 
     def present(self):
         confirmed_select = False
@@ -88,7 +93,9 @@ class Menu:
             else:
                 if key is not None:
                     self.move_pointer(key)
-            
+        
+        self.build_result()
+        return self.result
 
 
 
@@ -143,6 +150,16 @@ class Selection_menu(Menu):
             self.pointer += 1
         if self.pointer > upper_bounds:
             self.pointer = upper_bounds
+
+    def build_result(self):
+        result_fields = len(self.input_list)
+        result_list = []
+        for i in range(result_fields):
+            if i == self.pointer:
+                result_list.append(1)
+            else:
+                result_list.append(0)
+        self.result = result_list
         
         
 
@@ -223,7 +240,10 @@ def main():
     test_menu = Selection_menu(["Bad idea", "Use the toilette", "Run away screaming", "Take a bath"], "Breakfast is only the beginning", "Get to the bottom of this")
     test_menu.dump_subcontents()
     input("continue")
-    test_menu.present()
+    test3_result = test_menu.present()
+    print(test3_result)
+    print(test_menu.result)
+
 
 
 
