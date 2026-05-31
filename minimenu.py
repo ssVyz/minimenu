@@ -4,7 +4,7 @@ CHANGELOG:
 260527: Working on input lists
 260528: Simple build frame and show frame methods
 260529: presenting the select menu
-260530: result list implemented
+260530: result list implemented and simple result
 
 
 """
@@ -41,6 +41,7 @@ class Menu:
         self.header = header
         self.footer = footer
         self.result = []
+        self.simple_result = None
 
         if input_list is not None:
             self.input_list = input_list
@@ -95,6 +96,7 @@ class Menu:
                     self.move_pointer(key)
         
         self.build_result()
+        self.simple_result = self.pointer
         return self.result
 
 
@@ -243,6 +245,7 @@ def main():
     test3_result = test_menu.present()
     print(test3_result)
     print(test_menu.result)
+    print(test_menu.input_list[test_menu.simple_result])
 
 
 
