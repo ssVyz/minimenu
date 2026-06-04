@@ -137,7 +137,7 @@ class Selection_menu(Menu):
             self.display_frame.append((a, b))
         
     def show_frame(self):
-        os.system("cls")
+        clear_screen()
         print("")
         if self.header is not None:
             print(self.header)
@@ -219,6 +219,13 @@ def decode_key(key):
 
 def get_linux_key():
     return b'\r'
+
+def clear_screen():
+    if sys_code == "win":
+        os.system("cls")
+    if sys_code == "lin":
+        os.system("clear")
+
 
 
 
