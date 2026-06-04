@@ -20,7 +20,12 @@ try:
     import msvcrt
     sys_code = "win"
 except:
-    raise Exception("No method found for keyboard support")
+    try:
+        import termios
+        import tty
+        sys_code = "lin"
+    except:
+        raise Exception("Can not determine system for input method")
 
 
 
