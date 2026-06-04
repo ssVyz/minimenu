@@ -1,18 +1,16 @@
 """
-CHANGELOG:
-260519: Started, keypresses via msvcrt
-260527: Working on input lists
-260528: Simple build frame and show frame methods
-260529: presenting the select menu
-260530: result list implemented and simple result
-
+- Copy/paste this file into your repo.
+- Import one of the relevant menu classes: Selection_menu,
 
 """
+
+
+
+
 
 ##########################################
 ### Minimenu: tiny CLI menu for python ###
 ##########################################
-
 
 
 import sys
@@ -23,8 +21,6 @@ try:
     sys_code = "win"
 except:
     raise Exception("No method found for keyboard support")
-
-
 
 
 
@@ -79,7 +75,7 @@ class Menu:
         pass
 
 
-    def present(self):
+    def present(self, simple: bool = False):
         confirmed_select = False
         self.limit = len(self.input_list)-1
 
@@ -87,7 +83,7 @@ class Menu:
 
             self.build_frame()
             self.show_frame()
-            print(f"Current pointer: {self.pointer}, current limit: {self.limit}")
+            #print(f"Current pointer: {self.pointer}, current limit: {self.limit}")
             key = decode_key(get_next_key())
             if key == "enter":
                 confirmed_select = True
@@ -97,8 +93,13 @@ class Menu:
         
         self.build_result()
         self.simple_result = self.pointer
+        if simple == True:
+            return self.simple_result
         return self.result
 
+    def insert_padding(self):
+        for pad in range(self.padding):
+                print("")
 
 
 
@@ -133,12 +134,18 @@ class Selection_menu(Menu):
     def show_frame(self):
         os.system("cls")
         print("")
-        print(self.header)
-        print("")
+        if self.header is not None:
+            print(self.header)
+            print("")
         for i in range(0, len(self.display_frame)):
+            self.insert_padding()
             print(f"{self.display_frame[i][0]} {self.display_frame[i][1]}")
+            
         print("")
-        print(self.footer)
+        self.insert_padding()
+        if self.footer is not None:
+            print(self.footer)
+            print("")
 
     def move_pointer(self, key):
         upper_bounds = self.limit
@@ -164,15 +171,6 @@ class Selection_menu(Menu):
         self.result = result_list
         
         
-
-            
-
-
-
-
-
-
-
 
 
 
