@@ -215,10 +215,46 @@ def decode_key(key):
             return "enter"
         else:
             return None
+        
+    elif sys_code == "lin":
+        return key
 
 
 def get_linux_key():
-    return b'\r'
+    empty_key_buffer()
+
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+
+    tty.setcbreak(fd)
+
+    chars = sys.stdin.read(1)
+    output = None
+    if chars == '\x1b':
+        chars += sys.stdin.read(1)
+        chars += sys.stdin.read(1)
+
+        if chars == '\x1b[A':
+            output = "up"
+        elif chars == '\x1b[B':
+            output = "down"
+        elif chars == '\x1b[C':
+            output = "right"
+        elif chars == '\x1b[D':
+            output = "left"
+    
+    elif chars == '\n' or chars == '\r':
+        output = "enter"
+
+    termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
+    return output
+
+
+
+
+
+
 
 def clear_screen():
     if sys_code == "win":
