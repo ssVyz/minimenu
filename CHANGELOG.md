@@ -6,6 +6,7 @@ CHANGELOG:
 260529: presenting the select menu
 260530: result list implemented and simple result
 260604: Padding function, started working on Linux input
+260606: Linux input works
 
 
 """
