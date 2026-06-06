@@ -187,7 +187,7 @@ def empty_key_buffer():
         while msvcrt.kbhit():
             msvcrt.getch()
     elif sys_code == "lin":
-        termios.tcflush(sys.stdin.fileno(). termios.TCIFLUSH)
+        termios.tcflush(sys.stdin.fileno(), termios.TCIFLUSH)
 
 def get_next_key() -> str:
     if sys_code == "win":
