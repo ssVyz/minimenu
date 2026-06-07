@@ -13,13 +13,9 @@ from minimenu import Selection_menu
 class Work_folder:
 
     def __init__(self):
-
         self.current_dir = Path.cwd()
         
-
-
     def select_folder(self):
-
         contents_list = []
         name_list = []
         for item in self.current_dir.iterdir():
@@ -29,12 +25,12 @@ class Work_folder:
         contents_list.append(self.current_dir.parent)
         name_list.append("cd ..")
                     
-        mim = Selection_menu(name_list, "Select a folder", "folders are for the weak")
+        mim = Selection_menu(name_list, f"Current folder: {str(self.current_dir)} \nSelect a folder or file", "Use arrow keys to navigate. Use enter to select")
         result = mim.present(True)
         
         selected_item = contents_list[result]
 
-        print(f"You selected {selected_item}")
+        #print(f"You selected {selected_item}")
         
         return selected_item
         
