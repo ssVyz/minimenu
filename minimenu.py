@@ -252,17 +252,11 @@ def get_linux_key():
 
 
 
-
-
-
-
 def clear_screen():
     if sys_code == "win":
         os.system("cls")
     if sys_code == "lin":
         os.system("clear")
-
-
 
 
 
