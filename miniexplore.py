@@ -12,8 +12,12 @@ from minimenu import Selection_menu
 
 class Work_folder:
 
-    def __init__(self):
-        self.current_dir = Path.cwd()
+    def __init__(self, start_folder):
+
+        self.current_dir = Path(start_folder)
+        if self.current_dir.exists() == False:
+            self.current_dir = Path.cwd()
+
         
     def select_folder(self):
         contents_list = []
@@ -46,13 +50,12 @@ class Work_folder:
 
 
 
-def select_file():
+def select_file(starting_folder=(Path.cwd())):
 
-    wf = Work_folder()
+    wf = Work_folder(starting_folder)
     result_file_path = ""
-    file_selected = False
 
-    while file_selected != True:
+    while True:
 
         current_item = wf.select_folder()
         if current_item.is_dir() == True:
@@ -71,7 +74,7 @@ def main():
     #print("Testing go to parent")
     #test.go_to_parent()
     
-    result = select_file()
+    result = select_file("C:\software")
     print(result)
 
 
