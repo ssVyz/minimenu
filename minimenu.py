@@ -179,14 +179,62 @@ class Checkbox_menu(Menu):
             raise Exception("tried to set pre-checked list that is not the same length as the input list.")
 
     def build_frame(self):
-        pass
+        self.display_frame = []
+        size_of_list = len(self.input_list)
+        if self.checked == []:
+            for _ in range(len(self.input_list)):
+                self.checked.append(0)
+        elif len(self.checked) != len(self.input_list):
+            raise Exception("input list and checked list are not the same length")
+        
+        for i in range(0, size_of_list):
+            a = ""
+            if i == self.pointer:
+                a = " --> "
+            else:
+                a = "     "
+            
+            b = ""
+            if self.checked[i] == 1:
+                b = " [X] "
+            else:
+                b = " [ ] "
+
+            c = ""
+            c = self.input_list[i]
+            self.display_frame.append((a, b, c))
+        
 
     def show_frame(self):
-        pass
+        clear_screen()
+        print("")
+        if self.header is not None:
+            print(self.header)
+            print("")
+        for i in range(0, len(self.display_frame)):
+            self.insert_padding()
+            print(f"{self.display_frame[i][0]} {self.display_frame[i][1]} {self.display_frame[i][2]}")
+        print("")
+        self.insert_padding()
+        if self.footer is not None:
+            print(self.footer)
+            print("")
 
     def move_pointer(self, key):
-        pass
+        upper_bounds = self.limit
+        if key == "up":
+            self.pointer -= 1 if self.pointer > 0 else self.pointer
+        if key == "left":
+            self.checked[self.pointer] = 0
+        if key == "down":
+            self.pointer += 1
+        if key == "right":
+            self.checked[self.pointer] = 1
+        if self.pointer > upper_bounds:
+            self.pointer = upper_bounds
 
+    def build_result(self):
+        self.result = self.checked
 
 
 
