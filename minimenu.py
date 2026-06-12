@@ -60,12 +60,6 @@ class Menu:
             self.input_list = new_list
         else:
             raise Exception("Tried loading something other than a list")
-        
-    def dump_contents(self):
-        print(f"Type of list: {type(self.input_list)}")
-        print(self.input_list)
-        print(self.header)
-        print(self.footer)
     
     def build_frame(self):
         pass
@@ -117,12 +111,6 @@ class Selection_menu(Menu):
 
     def __init__(self, input_list: list = None, header = None, footer = None, padding: int = 0):
         super().__init__(input_list, header, footer, padding)
-
-    def dump_subcontents(self):
-        print(f"Type of list in selection menu: {type(self.input_list)}")
-        print(self.input_list)
-        print(self.header)
-        print(self.footer)
 
     def build_frame(self):
         self.display_frame = []
@@ -176,6 +164,28 @@ class Selection_menu(Menu):
         self.result = result_list
         
         
+
+
+class Checkbox_menu(Menu):
+
+    def __init__(self, input_list: list = None, header = None, footer = None, padding: int = 0):
+        super().__init__(input_list, header, footer, padding)
+        self.checked = []
+
+    def update_checked(self, checked_list: list[int]):
+        if len(self.input_list) == len(checked_list):
+            self.checked = checked_list
+        else:
+            raise Exception("tried to set pre-checked list that is not the same length as the input list.")
+
+    def build_frame(self):
+        pass
+
+    def show_frame(self):
+        pass
+
+    def move_pointer(self, key):
+        pass
 
 
 
@@ -275,26 +285,7 @@ def main():
     print(decode_key(key))
     '''
 
-    print("--Test 1--: load multiple strings directly into Menu object")
-    test_menu = Menu()
-    test_menu.add_item("This is item1")
-    test_menu.add_item("This is item2")
-    test_menu.dump_contents()
-    input("continue")
 
-    print("--Test 2--: Directly load an input list")
-    test_menu = Menu(["Item1", "Item2"])
-    test_menu.dump_contents()
-    input("continue")
-
-    print("--Test 3--: Testing selection menu")
-    test_menu = Selection_menu(["Bad idea", "Use the toilette", "Run away screaming", "Take a bath"], "Breakfast is only the beginning", "Get to the bottom of this")
-    test_menu.dump_subcontents()
-    input("continue")
-    test3_result = test_menu.present()
-    print(test3_result)
-    print(test_menu.result)
-    print(test_menu.input_list[test_menu.simple_result])
 
 
 
