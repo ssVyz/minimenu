@@ -8,5 +8,6 @@ CHANGELOG:
 260604: Padding function, started working on Linux input
 260606: Linux input works
 260612: Initial setup for checkbox menu, checkboxes working
+260620: select and quit implementation
 
 """

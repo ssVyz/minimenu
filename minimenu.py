@@ -86,6 +86,10 @@ class Menu:
             key = decode_key(get_next_key())
             if key == "enter":
                 confirmed_select = True
+            if key == "quit":
+                return None
+            if key == "select":
+                return "select"
             else:
                 if key is not None:
                     self.move_pointer(key)
@@ -271,6 +275,10 @@ def decode_key(key):
             return "right"
         elif key == b'\r':
             return "enter"
+        elif key == b's':
+            return "select"
+        elif key == b'q':
+            return "quit"
         else:
             return None
         
@@ -303,6 +311,10 @@ def get_linux_key():
     
     elif chars == '\n' or chars == '\r':
         output = "enter"
+    elif chars == 's':
+        output = "select"
+    elif chars == 'q':
+        output = "quit"
 
     termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 

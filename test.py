@@ -19,7 +19,12 @@ def main():
     test_menu = Selection_menu(AVAILABLE_TESTS, "Select from available tests", "Choose one", 1)
     test_choice = test_menu.present(True)
     
-    print(f"You have chosen option {test_choice+1}, {AVAILABLE_TESTS[test_choice]}")
+    if test_choice is None:
+        return
+    elif test_choice is "select":
+        print(f"You have chosen option: select")
+    else:
+        print(f"You have chosen option {test_choice+1}, {AVAILABLE_TESTS[test_choice]}")
 
     if test_choice == 0:
         test_checkbox()
