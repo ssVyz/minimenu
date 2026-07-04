@@ -258,10 +258,15 @@ class Work_folder:
         contents_list.append(self.current_dir.parent)
         name_list.append("cd ..")
                     
-        mim = Selection_menu(name_list, f"Current folder: {str(self.current_dir)} \nSelect a folder or file", "Use arrow keys to navigate. Use enter to select")
+        mim = Selection_menu(name_list, f"Current folder: {str(self.current_dir)} \nSelect a folder or file", "Use arrow keys to navigate. Use enter to select a file. Use s-key to select current folder. Use q-key to exit without selecting.")
         result = mim.present(True)
-        
-        selected_item = contents_list[result]
+
+        if result == None:
+            return None
+        elif result == "select":
+            return "select"
+        else:
+            selected_item = contents_list[result]
 
         #print(f"You selected {selected_item}")
         
@@ -277,18 +282,24 @@ class Work_folder:
 
 
 
-
+# Miniexplore function
 
 def select_file(starting_folder=(Path.cwd())):
 
     wf = Work_folder(starting_folder)
     result_file_path = ""
 
+    last_item = starting_folder
     while True:
 
         current_item = wf.select_folder()
-        if current_item.is_dir() == True:
+        if current_item == None:
+            return None
+        elif current_item == "select":
+            return last_item
+        elif current_item.is_dir() == True:
             wf.current_dir = current_item
+            last_item = current_item
         else:
             return str(current_item)
 
