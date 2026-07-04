@@ -3,6 +3,8 @@ __pycache__/
 *~
 *.swp
 
+old/
+
 test.py
 test2.py
 test3.py
