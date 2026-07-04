@@ -15,6 +15,7 @@
 
 import sys
 import os
+from pathlib import Path
 
 try:
     import msvcrt
@@ -26,8 +27,6 @@ except:
         sys_code = "lin"
     except:
         raise Exception("Can not determine system for input method")
-
-
 
 
 ### The wrapper class that contains shared methods
@@ -106,9 +105,6 @@ class Menu:
 
 
 
-
-
-
 ### Subclass for the selection menu
     
 class Selection_menu(Menu):
@@ -168,7 +164,6 @@ class Selection_menu(Menu):
         self.result = result_list
         
         
-
 
 class Checkbox_menu(Menu):
 
@@ -239,6 +234,67 @@ class Checkbox_menu(Menu):
 
     def build_result(self):
         self.result = self.checked
+
+
+
+### Miniexplore block ###
+
+class Work_folder:
+
+    def __init__(self, start_folder):
+
+        self.current_dir = Path(start_folder)
+        if self.current_dir.exists() == False:
+            self.current_dir = Path.cwd()
+
+        
+    def select_folder(self):
+        contents_list = []
+        name_list = []
+        for item in self.current_dir.iterdir():
+            contents_list.append(item)
+            name_list.append(item.name)
+
+        contents_list.append(self.current_dir.parent)
+        name_list.append("cd ..")
+                    
+        mim = Selection_menu(name_list, f"Current folder: {str(self.current_dir)} \nSelect a folder or file", "Use arrow keys to navigate. Use enter to select")
+        result = mim.present(True)
+        
+        selected_item = contents_list[result]
+
+        #print(f"You selected {selected_item}")
+        
+        return selected_item
+        
+
+
+    def go_to_parent(self):
+
+        self.current_dir = self.current_dir.parent
+
+        self.select_folder()
+
+
+
+
+
+def select_file(starting_folder=(Path.cwd())):
+
+    wf = Work_folder(starting_folder)
+    result_file_path = ""
+
+    while True:
+
+        current_item = wf.select_folder()
+        if current_item.is_dir() == True:
+            wf.current_dir = current_item
+        else:
+            return str(current_item)
+
+
+
+
 
 
 
@@ -321,13 +377,11 @@ def get_linux_key():
     return output
 
 
-
 def clear_screen():
     if sys_code == "win":
         os.system("cls")
     if sys_code == "lin":
         os.system("clear")
-
 
 
 
@@ -344,9 +398,6 @@ def main():
     print(key)
     print(decode_key(key))
     '''
-
-
-
 
 
 

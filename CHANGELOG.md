@@ -9,5 +9,6 @@ CHANGELOG:
 260606: Linux input works
 260612: Initial setup for checkbox menu, checkboxes working
 260620: select and quit implementation
+260704: Folder miniexplore into minimenu
 
 """
